@@ -1,0 +1,32 @@
+import { NextResponse } from "next/server";
+import { readFile } from "fs/promises";
+import { join } from "path";
+import { existsSync } from "fs";
+
+export async function GET() {
+  try {
+    const dataDir = join(process.cwd(), "data");
+    const matchesPath = join(dataDir, "matches.json");
+    const seedPath = join(dataDir, "seed.json");
+
+    if (existsSync(matchesPath)) {
+      const content = await readFile(matchesPath, "utf-8");
+      const data = JSON.parse(content);
+      return NextResponse.json(data);
+    }
+
+    if (existsSync(seedPath)) {
+      const content = await readFile(seedPath, "utf-8");
+      const data = JSON.parse(content);
+      return NextResponse.json({ matches: data.matches ?? [], updated_at: null });
+    }
+
+    return NextResponse.json({ matches: [], updated_at: null });
+  } catch (err) {
+    console.error("API matches error:", err);
+    return NextResponse.json(
+      { error: "Failed to load matches" },
+      { status: 500 }
+    );
+  }
+}

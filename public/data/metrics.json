@@ -1,0 +1,224 @@
+{
+  "updated_at": "2026-03-23T17:02:04.876819Z",
+  "metrics": {
+    "global": {
+      "total_games": 12,
+      "over_05_pct": 91.7,
+      "over_15_pct": 91.7,
+      "over_25_pct": 83.3,
+      "btts_pct": 75.0,
+      "draws_pct": 25.0,
+      "favorite_wins_pct": 50.0
+    },
+    "by_competition": {
+      "CL": {
+        "name": "Champions League (UCL)",
+        "games": 4,
+        "over_25_pct": 100.0,
+        "btts_pct": 75.0,
+        "draws_pct": 0.0,
+        "favorite_wins_pct": 50.0
+      },
+      "PD": {
+        "name": "La Liga",
+        "games": 2,
+        "over_25_pct": 100.0,
+        "btts_pct": 100.0,
+        "draws_pct": 0.0,
+        "favorite_wins_pct": 50.0
+      },
+      "PL": {
+        "name": "Premier League",
+        "games": 2,
+        "over_25_pct": 50.0,
+        "btts_pct": 0.0,
+        "draws_pct": 50.0,
+        "favorite_wins_pct": 0.0
+      },
+      "EL": {
+        "name": "Europa League",
+        "games": 1,
+        "over_25_pct": 100.0,
+        "btts_pct": 100.0,
+        "draws_pct": 0.0,
+        "favorite_wins_pct": 0.0
+      },
+      "DED": {
+        "name": "Eredivisie",
+        "games": 1,
+        "over_25_pct": 100.0,
+        "btts_pct": 100.0,
+        "draws_pct": 100.0,
+        "favorite_wins_pct": 0.0
+      },
+      "BSA": {
+        "name": "Brasileirão",
+        "games": 1,
+        "over_25_pct": 0.0,
+        "btts_pct": 100.0,
+        "draws_pct": 100.0,
+        "favorite_wins_pct": 0.0
+      },
+      "CLI": {
+        "name": "Libertadores",
+        "games": 1,
+        "over_25_pct": 100.0,
+        "btts_pct": 100.0,
+        "draws_pct": 0.0,
+        "favorite_wins_pct": 0.0
+      }
+    },
+    "sample_matches": [
+      {
+        "id": "3",
+        "home_team": "Liverpool",
+        "away_team": "Galatasaray",
+        "home_team_id": 64,
+        "away_team_id": 728,
+        "home_team_crest": "https://crests.football-data.org/64.png",
+        "away_team_crest": "https://crests.football-data.org/728.png",
+        "competition": "Champions League (UCL)",
+        "competition_code": "CL",
+        "date": "2026-03-17T20:00:00+00:00",
+        "home_goals": 4,
+        "away_goals": 0,
+        "status": "FINISHED"
+      },
+      {
+        "id": "4",
+        "home_team": "Bayern Munich",
+        "away_team": "Atalanta",
+        "home_team_id": 5,
+        "away_team_id": 102,
+        "home_team_crest": "https://crests.football-data.org/5.png",
+        "away_team_crest": "https://crests.football-data.org/102.png",
+        "competition": "Champions League (UCL)",
+        "competition_code": "CL",
+        "date": "2026-03-18T20:00:00+00:00",
+        "home_goals": 4,
+        "away_goals": 1,
+        "status": "FINISHED"
+      },
+      {
+        "id": "5",
+        "home_team": "Real Madrid",
+        "away_team": "Atlético",
+        "home_team_id": 86,
+        "away_team_id": 78,
+        "home_team_crest": "https://crests.football-data.org/86.png",
+        "away_team_crest": "https://crests.football-data.org/78.png",
+        "competition": "La Liga",
+        "competition_code": "PD",
+        "date": "2026-03-19T18:30:00+00:00",
+        "home_goals": 3,
+        "away_goals": 2,
+        "status": "FINISHED"
+      },
+      {
+        "id": "6",
+        "home_team": "Celta",
+        "away_team": "Alavés",
+        "home_team_id": 558,
+        "away_team_id": 263,
+        "home_team_crest": "https://crests.football-data.org/558.png",
+        "away_team_crest": "https://crests.football-data.org/263.png",
+        "competition": "La Liga",
+        "competition_code": "PD",
+        "date": "2026-03-20T16:00:00+00:00",
+        "home_goals": 3,
+        "away_goals": 4,
+        "status": "FINISHED"
+      },
+      {
+        "id": "7",
+        "home_team": "Leeds",
+        "away_team": "Brentford",
+        "home_team_id": 341,
+        "away_team_id": 402,
+        "home_team_crest": "https://crests.football-data.org/341.png",
+        "away_team_crest": "https://crests.football-data.org/402.png",
+        "competition": "Premier League",
+        "competition_code": "PL",
+        "date": "2026-03-21T15:00:00+00:00",
+        "home_goals": 0,
+        "away_goals": 0,
+        "status": "FINISHED"
+      },
+      {
+        "id": "8",
+        "home_team": "Everton",
+        "away_team": "Chelsea",
+        "home_team_id": 62,
+        "away_team_id": 61,
+        "home_team_crest": "https://crests.football-data.org/62.png",
+        "away_team_crest": "https://crests.football-data.org/61.png",
+        "competition": "Premier League",
+        "competition_code": "PL",
+        "date": "2026-03-22T15:00:00+00:00",
+        "home_goals": 3,
+        "away_goals": 0,
+        "status": "FINISHED"
+      },
+      {
+        "id": "9",
+        "home_team": "Liverpool",
+        "away_team": "Atalanta",
+        "home_team_id": 64,
+        "away_team_id": 102,
+        "home_team_crest": "https://crests.football-data.org/64.png",
+        "away_team_crest": "https://crests.football-data.org/102.png",
+        "competition": "Europa League",
+        "competition_code": "EL",
+        "date": "2026-03-18T18:45:00+00:00",
+        "home_goals": 2,
+        "away_goals": 1,
+        "status": "FINISHED"
+      },
+      {
+        "id": "10",
+        "home_team": "Ajax",
+        "away_team": "PSV",
+        "home_team_id": 678,
+        "away_team_id": 674,
+        "home_team_crest": "https://crests.football-data.org/678.png",
+        "away_team_crest": "https://crests.football-data.org/674.png",
+        "competition": "Eredivisie",
+        "competition_code": "DED",
+        "date": "2026-03-19T19:00:00+00:00",
+        "home_goals": 2,
+        "away_goals": 2,
+        "status": "FINISHED"
+      },
+      {
+        "id": "11",
+        "home_team": "Flamengo",
+        "away_team": "Palmeiras",
+        "home_team_id": 1769,
+        "away_team_id": 1765,
+        "home_team_crest": "https://crests.football-data.org/1769.png",
+        "away_team_crest": "https://crests.football-data.org/1765.png",
+        "competition": "Brasileirão",
+        "competition_code": "BSA",
+        "date": "2026-03-20T22:00:00+00:00",
+        "home_goals": 1,
+        "away_goals": 1,
+        "status": "FINISHED"
+      },
+      {
+        "id": "12",
+        "home_team": "River Plate",
+        "away_team": "Boca Juniors",
+        "home_team_id": 2033,
+        "away_team_id": 2061,
+        "home_team_crest": "https://crests.football-data.org/2033.png",
+        "away_team_crest": "https://crests.football-data.org/2061.png",
+        "competition": "Libertadores",
+        "competition_code": "CLI",
+        "date": "2026-03-21T00:30:00+00:00",
+        "home_goals": 3,
+        "away_goals": 1,
+        "status": "FINISHED"
+      }
+    ]
+  }
+}

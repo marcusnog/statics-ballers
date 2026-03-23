@@ -1,0 +1,17 @@
+# Estatics Ballers - Sistema de Automação de Estatísticas de Apostas
+# Python 3.10+
+
+# APIs e HTTP
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# LLM (OpenAI ou Anthropic)
+openai>=1.12.0
+anthropic>=0.18.0
+
+# Agendamento
+schedule>=1.2.0
+
+# Opcional: notificações
+# requests já cobre Telegram (httpx alternativa)
+httpx>=0.26.0

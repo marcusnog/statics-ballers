@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: 250 250 252;
+    --color-surface: 255 255 255;
+    --color-border: 226 232 240;
+    --color-text: 15 23 42;
+    --color-text-muted: 100 116 139;
+    --color-accent: 22 163 74;
+    --radius: 0.75rem;
+    --radius-lg: 1rem;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply antialiased text-slate-800;
+    background: linear-gradient(180deg, rgb(var(--color-bg)) 0%, rgb(241 245 249) 100%);
+    min-height: 100vh;
+  }
+
+  /* Focus ring for accessibility */
+  a:focus-visible,
+  button:focus-visible {
+    @apply outline-none ring-2 ring-emerald-500 ring-offset-2;
+  }
+}
+
+@layer components {
+  .section-title {
+    @apply text-lg font-semibold text-slate-800 mb-1;
+  }
+
+  .section-subtitle {
+    @apply text-sm text-slate-500 mb-6;
+  }
+
+  .section-divider {
+    @apply relative pl-4 before:content-[''] before:absolute before:left-0 before:top-0.5 before:bottom-0.5 before:w-1 before:rounded-full before:bg-emerald-500;
+  }
+
+  .card-base {
+    @apply bg-white rounded-2xl border border-slate-200/80 shadow-card;
+  }
+
+  .card-interactive {
+    @apply card-base transition-all duration-200 hover:shadow-card-hover hover:border-slate-200;
+  }
+
+  .table-base {
+    @apply min-w-full;
+  }
+
+  .table-th {
+    @apply px-5 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 bg-slate-50/80;
+  }
+
+  .table-td {
+    @apply px-5 py-3.5 text-sm text-slate-700 whitespace-nowrap;
+  }
+
+  .table-row-hover {
+    @apply transition-colors hover:bg-slate-50/70;
+  }
+}
+
+/* Prose for markdown */
+.prose h1 { @apply text-xl font-bold mt-4 mb-2 text-slate-800; }
+.prose h2 { @apply text-lg font-semibold mt-4 mb-2 text-slate-800; }
+.prose h3 { @apply text-base font-medium mt-3 mb-1 text-slate-700; }
+.prose p { @apply my-2 text-slate-600 leading-relaxed; }
+.prose table { @apply w-full border-collapse; }
+.prose th, .prose td { @apply border border-slate-200 px-3 py-2 text-left text-sm; }
+.prose th { @apply bg-slate-50 font-medium text-slate-700; }
+.prose ul { @apply list-disc list-inside my-2 space-y-1 text-slate-600; }
+.prose blockquote { @apply border-l-4 border-emerald-200 pl-4 italic text-slate-600 my-2; }
+
+/* Report viewer: primeiro bloco (Atualizado em) com destaque */
+.report-content [data-report-blockquote]:first-of-type {
+  @apply border-emerald-200 bg-emerald-50/50;
+}
