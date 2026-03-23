@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-23T18:05:08.794021Z",
+  "updated_at": "2026-03-23T18:28:24.855848Z",
   "fixtures": [
     {
       "id": "f1",
@@ -89,7 +89,7 @@
       "date": "2026-03-24T22:00:00+00:00",
       "home_goals": null,
       "away_goals": null,
-      "status": "SCHEDULED"
+      "status": "FINISHED"
     }
   ]
 }

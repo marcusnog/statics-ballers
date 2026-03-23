@@ -12,6 +12,12 @@ anthropic>=0.18.0
 # Agendamento
 schedule>=1.2.0
 
+# SofaScore (ScraperFC)
+ScraperFC>=2.0.0
+
+# FlashScore (fs-football-fork) - opcional
+fs-football-fork>=0.1.0
+
 # Opcional: notificações
 # requests já cobre Telegram (httpx alternativa)
 httpx>=0.26.0

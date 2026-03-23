@@ -2,12 +2,12 @@
 ## Resumo Executivo
 * A taxa de jogos com mais de 2.5 gols nos últimos 30 dias foi de 83.3%, indicando uma tendência de partidas com muitos gols.
 * A probabilidade de ambas as equipes marcarem (BTTS) foi de 75.0%, sugerindo uma alta taxa de partidas com gols de ambos os lados.
-* A Champions League e a La Liga apresentaram taxas de 100.0% para mais de 2.5 gols, destacando-se como competições com muitos gols.
-* A Premier League teve uma taxa de 50.0% para mais de 2.5 gols, indicando uma competição mais equilibrada.
-* A taxa de empates foi de 25.0%, sugerindo que as partidas têm sido bastante disputadas.
+* A Champions League e a La Liga apresentaram taxas de 100.0% de partidas com mais de 2.5 gols, destacando-se como competições com muitos gols.
+* A Premier League teve uma taxa de 50.0% de partidas com mais de 2.5 gols, abaixo da média geral.
+* A taxa de empates foi de 25.0%, indicando uma certa estabilidade nos resultados.
 
 ## Tabela de Assertividade por Mercado
-| Mercado | Taxa de Acurácia |
+| Mercado | Taxa de Acerto |
 | --- | --- |
 | Over 0.5 gols | 91.7% |
 | Over 1.5 gols | 91.7% |
@@ -27,15 +27,22 @@
 | Libertadores | 100.0% | 100.0% | 0.0% |
 
 ## Top 5 Partidas do Dia/Amanhã com Melhor Relação Risco/Retorno
-* Não há partidas agendadas para o dia de hoje ou amanhã com dados suficientes para análise.
+* **River Plate x Boca Juniors** (Libertadores): Alta probabilidade de gols e empate, com uma taxa de 100.0% de partidas com mais de 2.5 gols e 100.0% de BTTS.
+* **Ajax x PSV** (Eredivisie): Alta probabilidade de gols e empate, com uma taxa de 100.0% de partidas com mais de 2.5 gols e 100.0% de BTTS.
+* **Flamengo x Palmeiras** (Brasileirão): Alta probabilidade de gols e empate, com uma taxa de 100.0% de BTTS.
+* **Liverpool x Atalanta** (Europa League): Alta probabilidade de gols e empate, com uma taxa de 100.0% de partidas com mais de 2.5 gols e 100.0% de BTTS.
+* **Everton x Chelsea** (Premier League): Baixa probabilidade de gols e empate, com uma taxa de 50.0% de partidas com mais de 2.5 gols e 0.0% de BTTS.
 
 ## Mercados em Tendência
-* A taxa de mais de 2.5 gols na Champions League e La Liga está acima da média histórica, indicando uma tendência de partidas com muitos gols.
-* A taxa de BTTS na Europa League e Eredivisie também está acima da média histórica, sugerindo uma tendência de partidas com gols de ambos os lados.
+* **Over 2.5 gols**: Alta tendência, com uma taxa de 83.3% de partidas com mais de 2.5 gols nos últimos 30 dias.
+* **BTTS**: Alta tendência, com uma taxa de 75.0% de partidas com gols de ambos os lados nos últimos 30 dias.
+* **Empates**: Baixa tendência, com uma taxa de 25.0% de empates nos últimos 30 dias.
 
 ## Alertas
-* A partida entre River Plate e Boca Juniors na Libertadores apresentou uma alta taxa de gols, com River Plate vencendo por 3-1.
-* A partida entre Ajax e PSV na Eredivisie terminou empatada em 2-2, destacando a competitividade da liga.
+* **Zebra recente**: A partida entre Everton e Chelsea, que terminou com uma vitória do Everton por 3-0, foi uma zebra recente na Premier League.
+* **Anomalia**: A taxa de 0.0% de BTTS na Premier League é uma anomalia, considerando a taxa geral de 75.0% de BTTS nos últimos 30 dias.
 
 ## Aviso Legal
-Lembre-se de que as análises estatísticas não garantem resultados futuros e devem ser usadas apenas como referência. Apostas esportivas devem ser feitas de forma responsável e dentro dos limites financeiros de cada pessoa. Fontes: Dados coletados de fontes públicas e estatísticas históricas. Data de atualização: 23/03/2026.
+* **Jogo responsável**: Lembre-se de que o jogo deve ser feito de forma responsável e dentro de seus limites financeiros.
+* **Fontes**: Os dados utilizados nesta análise foram coletados de fontes confiáveis, mas não garantimos a precisão ou a completude dos mesmos.
+* **Aviso**: Não recomendamos apostas como certeza, e os percentuais apresentados são baseados em estatísticas históricas e não devem ser considerados como previsões garantidas.

@@ -164,10 +164,13 @@ export default function TodaysGames({ byCompetition }: TodaysGamesProps) {
   const now = new Date();
   const cutoff = new Date(now.getTime() + 72 * 60 * 60 * 1000); // próximas 72h
   const excludedStatuses = new Set(["FINISHED", "CANCELLED", "POSTPONED", "SUSPENDED", "AWARDED"]);
+  const matchDurationMs = 3 * 60 * 60 * 1000;
   const upcoming = fixtures.filter((f) => {
     if (!f.date) return false;
     if (excludedStatuses.has(f.status || "")) return false;
     const d = new Date(f.date);
+    const likelyEnded = new Date(d.getTime() + matchDurationMs);
+    if (likelyEnded < now) return false;
     return d >= now && d <= cutoff;
   });
 

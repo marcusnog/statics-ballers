@@ -73,3 +73,23 @@ ODDS_SPORTS = [
 
 # Janela de dados em dias (2 meses para maior credibilidade)
 METRICS_WINDOW_DAYS = 60
+
+# SofaScore e FlashScore (fontes adicionais)
+SOFASCORE_ENABLED = os.getenv("SOFASCORE_ENABLED", "true").lower() == "true"
+FLASHSCORE_ENABLED = os.getenv("FLASHSCORE_ENABLED", "false").lower() == "true"
+
+# Mapeamento league_slug ScraperFC -> competition_code interno
+SOFASCORE_LEAGUES = {
+    "england-premier-league": "PL",
+    "spain-la-liga": "PD",
+    "germany-bundesliga": "BL1",
+    "italy-serie-a": "SA",
+    "france-ligue-one": "FL1",
+    "europe-uefa-champions-league": "CL",
+    "europe-uefa-europa-league": "EL",
+    "netherlands-eredivisie": "DED",
+    "portugal-primeira-liga": "PPL",
+    "england-championship": "ELC",
+    "brazil-brasileiro-serie-a": "BSA",
+    "south-america-copa-libertadores": "CLI",
+}

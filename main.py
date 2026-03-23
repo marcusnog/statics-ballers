@@ -8,9 +8,10 @@ import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from config import OUTPUT_DIR, DATA_DIR, FOOTBALL_DATA_API_KEY, METRICS_WINDOW_DAYS
-from collectors.football_data import fetch_matches, fetch_fixtures, normalize_match
-from storage import load_matches, save_matches, merge_and_trim_matches
+from config import OUTPUT_DIR, DATA_DIR, FOOTBALL_DATA_API_KEY, METRICS_WINDOW_DAYS, SOFASCORE_ENABLED, FLASHSCORE_ENABLED
+from collectors.football_data import fetch_matches as fd_fetch_matches, fetch_fixtures as fd_fetch_fixtures, normalize_match
+from collectors import sofascore, flashscore
+from storage import load_matches, save_matches, merge_from_multiple_sources
 from metrics import calculate_metrics
 from llm_report import generate_report
 from notify import notify_report_generated
@@ -48,22 +49,56 @@ def run_daily_analysis() -> Path | None:
     date_from = now - timedelta(days=METRICS_WINDOW_DAYS) if is_backfill else now - timedelta(days=2)
     date_to = now
 
+    match_sources = []
+    if SOFASCORE_ENABLED:
+        try:
+            ss_matches = sofascore.fetch_matches(date_from, date_to)
+            if ss_matches:
+                match_sources.append(ss_matches)
+        except Exception:
+            pass
     if FOOTBALL_DATA_API_KEY:
-        raw_matches = fetch_matches(date_from, date_to)
-        normalized = [normalize_match(m) for m in raw_matches]
-        merged = merge_and_trim_matches(existing, normalized)
+        raw_matches = fd_fetch_matches(date_from, date_to)
+        fd_normalized = [normalize_match(m) for m in raw_matches]
+        if fd_normalized:
+            match_sources.append(fd_normalized)
+    if FLASHSCORE_ENABLED:
+        try:
+            fs_matches = flashscore.fetch_matches(date_from, date_to)
+            if fs_matches:
+                match_sources.append(fs_matches)
+        except Exception:
+            pass
+    if match_sources:
+        merged = merge_from_multiple_sources(match_sources, existing)
         save_matches(merged)
     else:
         merged = load_matches()
 
     # 2. Fixtures (próximas 48h) — salvar para o frontend
-    fixtures_raw = []
-    fixtures_normalized = []
+    fixture_from = now
+    fixture_to = now + timedelta(days=2)
+    fixture_sources = []
+    if SOFASCORE_ENABLED:
+        try:
+            ss_fixtures = sofascore.fetch_fixtures(fixture_from, fixture_to)
+            if ss_fixtures:
+                fixture_sources.append(ss_fixtures)
+        except Exception:
+            pass
     if FOOTBALL_DATA_API_KEY:
-        fixture_from = now
-        fixture_to = now + timedelta(days=2)
-        fixtures_raw = fetch_fixtures(fixture_from, fixture_to)
-        fixtures_normalized = [normalize_match(f) for f in fixtures_raw]
+        fd_fixtures_raw = fd_fetch_fixtures(fixture_from, fixture_to)
+        fd_fixtures_norm = [normalize_match(f) for f in fd_fixtures_raw]
+        if fd_fixtures_norm:
+            fixture_sources.append(fd_fixtures_norm)
+    if FLASHSCORE_ENABLED:
+        try:
+            fs_fixtures = flashscore.fetch_fixtures(fixture_from, fixture_to)
+            if fs_fixtures:
+                fixture_sources.append(fs_fixtures)
+        except Exception:
+            pass
+    fixtures_normalized = merge_from_multiple_sources(fixture_sources, []) if fixture_sources else []
 
     # 2.1. Salvar fixtures em JSON para "Jogos do dia"
     fixtures_path = DATA_DIR / "fixtures.json"
