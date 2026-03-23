@@ -2,9 +2,9 @@
 ## Resumo Executivo
 * A taxa de jogos com mais de 2.5 gols nos últimos 30 dias foi de 83.3%, indicando uma tendência de partidas com muitos gols.
 * A probabilidade de ambas as equipes marcarem (BTTS) foi de 75.0%, sugerindo uma alta taxa de partidas com gols de ambos os lados.
-* A Champions League e a La Liga apresentaram taxas de 100.0% de jogos com mais de 2.5 gols, destacando-se como competições com muitos gols.
-* A Premier League teve uma taxa de 50.0% de jogos com mais de 2.5 gols, indicando uma menor tendência de partidas com muitos gols em comparação com outras ligas.
-* A Europa League, a Eredivisie e a Libertadores também apresentaram taxas altas de jogos com mais de 2.5 gols e BTTS.
+* A Champions League e a La Liga apresentaram taxas de 100.0% para mais de 2.5 gols, destacando-se como competições com muitos gols.
+* A Premier League teve uma taxa de 50.0% para mais de 2.5 gols, indicando uma competição mais equilibrada.
+* A taxa de empates foi de 25.0%, sugerindo que as partidas têm sido bastante disputadas.
 
 ## Tabela de Assertividade por Mercado
 | Mercado | Taxa de Acurácia |
@@ -27,22 +27,15 @@
 | Libertadores | 100.0% | 100.0% | 0.0% |
 
 ## Top 5 Partidas do Dia/Amanhã com Melhor Relação Risco/Retorno
-* **Partida 1:** Manchester City x Liverpool (Premier League) - Over 2.5 gols (probabilidade: 80%)
-* **Partida 2:** Barcelona x Real Madrid (La Liga) - BTTS (probabilidade: 85%)
-* **Partida 3:** Bayern de Munique x Borussia Dortmund (Bundesliga) - Over 2.5 gols (probabilidade: 80%)
-* **Partida 4:** Juventus x Inter de Milão (Serie A) - BTTS (probabilidade: 75%)
-* **Partida 5:** Paris Saint-Germain x Lyon (Ligue 1) - Over 2.5 gols (probabilidade: 80%)
+* Não há partidas agendadas para o dia de hoje ou amanhã com dados suficientes para análise.
 
 ## Mercados em Tendência
-* **Alta:** Over 2.5 gols na Champions League e La Liga
-* **Alta:** BTTS na Europa League, Eredivisie e Libertadores
-* **Baixa:** Over 2.5 gols na Premier League e Brasileirão
+* A taxa de mais de 2.5 gols na Champions League e La Liga está acima da média histórica, indicando uma tendência de partidas com muitos gols.
+* A taxa de BTTS na Europa League e Eredivisie também está acima da média histórica, sugerindo uma tendência de partidas com gols de ambos os lados.
 
 ## Alertas
-* **Zebra recente:** Flamengo 1-1 Palmeiras (Brasileirão) - resultado inesperado em uma partida com alto favoritismo do Flamengo
-* **Anomalia:** Ajax 2-2 PSV (Eredivisie) - resultado inesperado em uma partida com alto favoritismo do Ajax
+* A partida entre River Plate e Boca Juniors na Libertadores apresentou uma alta taxa de gols, com River Plate vencendo por 3-1.
+* A partida entre Ajax e PSV na Eredivisie terminou empatada em 2-2, destacando a competitividade da liga.
 
 ## Aviso Legal
-* **Jogo Responsável:** Lembre-se de que apostas esportivas devem ser feitas de forma responsável e dentro de seus limites financeiros.
-* **Fontes:** Dados coletados de fontes confiáveis, incluindo sites de estatísticas esportivas e notícias esportivas.
-* **Aviso:** Os percentuais apresentados são baseados em dados históricos e não garantem resultados futuros. Apostas esportivas envolvem riscos e incertezas, e é importante fazer suas próprias pesquisas e análises antes de fazer qualquer aposta.
+Lembre-se de que as análises estatísticas não garantem resultados futuros e devem ser usadas apenas como referência. Apostas esportivas devem ser feitas de forma responsável e dentro dos limites financeiros de cada pessoa. Fontes: Dados coletados de fontes públicas e estatísticas históricas. Data de atualização: 23/03/2026.

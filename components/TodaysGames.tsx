@@ -99,6 +99,8 @@ function formatDateLabel(dateStr: string | null): string {
   );
   if (diff === 0) return "Hoje";
   if (diff === 1) return "Amanhã";
+  if (diff === -1) return "Ontem";
+  if (diff >= -7 && diff < 0) return d.toLocaleDateString("pt-BR", { weekday: "short" });
   return d.toLocaleDateString("pt-BR", { weekday: "short", day: "2-digit" });
 }
 
@@ -161,10 +163,12 @@ export default function TodaysGames({ byCompetition }: TodaysGamesProps) {
 
   const now = new Date();
   const cutoff = new Date(now.getTime() + 72 * 60 * 60 * 1000); // próximas 72h
+  const excludedStatuses = new Set(["FINISHED", "CANCELLED", "POSTPONED", "SUSPENDED", "AWARDED"]);
   const upcoming = fixtures.filter((f) => {
     if (!f.date) return false;
+    if (excludedStatuses.has(f.status || "")) return false;
     const d = new Date(f.date);
-    return d >= now && d <= cutoff && (f.status === "SCHEDULED" || f.status === "TIMED" || !f.status);
+    return d >= now && d <= cutoff;
   });
 
   if (upcoming.length === 0) {
