@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-03-23T18:28:24.855848Z",
+  "updated_at": "2026-03-23T19:16:50.408970Z",
   "fixtures": [
     {
       "id": "f1",
@@ -75,21 +75,6 @@
       "home_goals": null,
       "away_goals": null,
       "status": "SCHEDULED"
-    },
-    {
-      "id": "f6",
-      "home_team": "Flamengo",
-      "away_team": "Corinthians",
-      "home_team_id": 1783,
-      "away_team_id": 1779,
-      "home_team_crest": "https://crests.football-data.org/1783.png",
-      "away_team_crest": "https://crests.football-data.org/1779.png",
-      "competition": "Brasileirão",
-      "competition_code": "BSA",
-      "date": "2026-03-24T22:00:00+00:00",
-      "home_goals": null,
-      "away_goals": null,
-      "status": "FINISHED"
     }
   ]
 }

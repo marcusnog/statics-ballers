@@ -74,9 +74,20 @@ ODDS_SPORTS = [
 # Janela de dados em dias (2 meses para maior credibilidade)
 METRICS_WINDOW_DAYS = 60
 
+# API-Football (api-sports.io) - 100 req/dia free
+API_FOOTBALL_KEY = os.getenv("API_FOOTBALL_KEY", "")
+API_FOOTBALL_ENABLED = os.getenv("API_FOOTBALL_ENABLED", "false").lower() == "true"
+
+# API-Futebol BR (api.api-futebol.com.br) - competições brasileiras
+API_FUTEBOL_BR_KEY = os.getenv("API_FUTEBOL_BR_KEY", "")
+API_FUTEBOL_BR_ENABLED = os.getenv("API_FUTEBOL_BR_ENABLED", "false").lower() == "true"
+
 # SofaScore e FlashScore (fontes adicionais)
 SOFASCORE_ENABLED = os.getenv("SOFASCORE_ENABLED", "true").lower() == "true"
 FLASHSCORE_ENABLED = os.getenv("FLASHSCORE_ENABLED", "false").lower() == "true"
+
+# Janela de fixtures (próximos N dias)
+FIXTURE_WINDOW_DAYS = int(os.getenv("FIXTURE_WINDOW_DAYS", "7"))
 
 # Mapeamento league_slug ScraperFC -> competition_code interno
 SOFASCORE_LEAGUES = {

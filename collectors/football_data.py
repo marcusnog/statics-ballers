@@ -14,6 +14,17 @@ from config import (
 BASE_URL = "https://api.football-data.org/v4"
 CREST_BASE = "https://crests.football-data.org"
 
+STATUS_MAP = {
+    "SCHEDULED": "SCHEDULED",
+    "TIMED": "SCHEDULED",
+    "IN_PLAY": "LIVE",
+    "PAUSED": "LIVE",
+    "FINISHED": "FINISHED",
+    "SUSPENDED": "POSTPONED",
+    "POSTPONED": "POSTPONED",
+    "CANCELLED": "POSTPONED",
+}
+
 
 def _headers() -> dict:
     return {
@@ -115,16 +126,19 @@ def normalize_match(match: dict) -> dict:
 
     ht = match.get("homeTeam") or {}
     at = match.get("awayTeam") or {}
-    home_team = ht.get("shortName") or ht.get("name", "?")
-    away_team = at.get("shortName") or at.get("name", "?")
+    home_team = ht.get("name") or ht.get("shortName") or "?"
+    away_team = at.get("name") or at.get("shortName") or "?"
     home_id = ht.get("id")
     away_id = at.get("id")
 
     def crest_url(tid) -> str | None:
         return f"{CREST_BASE}/{tid}.png" if tid else None
 
+    raw_status = match.get("status", "")
+    status = STATUS_MAP.get(raw_status, "SCHEDULED")
+
     return {
-        "id": str(match.get("id", "")),
+        "id": "fd_" + str(match.get("id", "")),
         "home_team": home_team,
         "away_team": away_team,
         "home_team_id": home_id,
@@ -136,6 +150,6 @@ def normalize_match(match: dict) -> dict:
         "date": dt.isoformat() if dt else None,
         "home_goals": home_goals,
         "away_goals": away_goals,
-        "status": match.get("status", ""),
+        "status": status,
         "total_goals": (home_goals + away_goals) if home_goals is not None and away_goals is not None else None,
     }

@@ -5,7 +5,7 @@ Sistema que coleta resultados de futebol, calcula métricas (janela móvel de 30
 ## Arquitetura
 
 ```
-[Agendador — 06:00 diário]
+[Agendador — 06:00 coleta | 08/12/16/20h fixtures]
          ↓
 [main.py]
    ├── Coleta via football-data.org + the-odds-api
@@ -55,26 +55,36 @@ TELEGRAM_CHAT_ID=
 python main.py
 ```
 
-### Agendador em loop (06:00 todo dia)
+### Atualizar apenas fixtures (próximos jogos)
+
+```bash
+python main.py --fixtures-only
+```
+
+Útil para manter os dados de jogos do dia atualizados sem rodar coleta completa.
+
+### Agendador em loop
 
 ```bash
 python run_scheduler.py
 ```
 
-### Windows Task Scheduler
+- **Coleta completa:** 06:00 (matches, métricas, relatório)
+- **Fixtures:** 08h, 12h, 16h, 20h (atualiza próximos jogos)
 
-1. Abra o Agendador de Tarefas
-2. Criar Tarefa Básica
-3. Nome: `EstaticsBallers`
-4. Gatilho: Diariamente às 06:00
-5. Ação: Iniciar programa → `python` com argumentos `main.py`
-6. Iniciar em: pasta do projeto (ex: `C:\Users\...\estatics-ballers`)
+### Cron / Windows Task Scheduler
 
-Ou via linha de comando (como Administrador):
-
+**Coleta completa (1x/dia às 06:00):**
 ```cmd
 schtasks /create /tn "EstaticsBallers" /tr "python C:\caminho\estatics-ballers\main.py" /sc daily /st 06:00
 ```
+
+**Fixtures (a cada 4h para dados mais assertivos):**
+```cmd
+schtasks /create /tn "EstaticsBallersFixtures" /tr "python C:\caminho\estatics-ballers\main.py --fixtures-only" /sc hourly /ri 4
+```
+
+Ou no cron (Linux): `0 8,12,16,20 * * * cd /path/project && python main.py --fixtures-only`
 
 ## Frontend Next.js
 

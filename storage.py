@@ -1,5 +1,6 @@
 """Armazenamento de dados - janela móvel (config.METRICS_WINDOW_DAYS)."""
 import json
+import os
 import unicodedata
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -22,26 +23,78 @@ def _match_key(m: dict[str, Any]) -> tuple[str, str, str]:
     return (home, away, date_str)
 
 
+CREST_FD_PREFIX = "https://crests.football-data.org/"
+
+
+def _is_fd_crest(url: str | None) -> bool:
+    """Indica se o crest é do football-data (mais estável)."""
+    return bool(url and CREST_FD_PREFIX in str(url))
+
+
+def _enrich_record(winner: dict[str, Any], other: dict[str, Any]) -> None:
+    """
+    Enriquece winner com dados de other.
+    Crests do football-data sempre sobrescrevem (mais confiáveis).
+    Senão, enriquece só quando winner não tem.
+    """
+    if _is_fd_crest(other.get("home_team_crest")):
+        winner["home_team_crest"] = other["home_team_crest"]
+    elif winner.get("home_team_crest") is None and other.get("home_team_crest"):
+        winner["home_team_crest"] = other["home_team_crest"]
+
+    if _is_fd_crest(other.get("away_team_crest")):
+        winner["away_team_crest"] = other["away_team_crest"]
+    elif winner.get("away_team_crest") is None and other.get("away_team_crest"):
+        winner["away_team_crest"] = other["away_team_crest"]
+
+    if winner.get("home_goals") is None and other.get("home_goals") is not None:
+        winner["home_goals"] = other["home_goals"]
+    if winner.get("away_goals") is None and other.get("away_goals") is not None:
+        winner["away_goals"] = other["away_goals"]
+    if winner.get("total_goals") is None and other.get("total_goals") is not None:
+        winner["total_goals"] = other["total_goals"]
+
+
+def _ensure_fd_crests(record: dict[str, Any]) -> None:
+    """
+    Se o registro tem team_id do football-data (id fd_) e crest ausente,
+    constrói URL a partir do ID.
+    """
+    mid = record.get("id") or ""
+    if not mid.startswith("fd_"):
+        return
+    hid = record.get("home_team_id")
+    aid = record.get("away_team_id")
+    if hid is not None and not _is_fd_crest(record.get("home_team_crest")):
+        try:
+            record["home_team_crest"] = f"{CREST_FD_PREFIX}{int(hid)}.png"
+        except (TypeError, ValueError):
+            pass
+    if aid is not None and not _is_fd_crest(record.get("away_team_crest")):
+        try:
+            record["away_team_crest"] = f"{CREST_FD_PREFIX}{int(aid)}.png"
+        except (TypeError, ValueError):
+            pass
+
+
 def merge_from_multiple_sources(
     list_of_match_lists: list[list[dict[str, Any]]],
     existing: list[dict[str, Any]],
     window_days: int = METRICS_WINDOW_DAYS,
 ) -> list[dict[str, Any]]:
     """
-    Mescla partidas de múltiplas fontes com deduplicação.
+    Mescla partidas de múltiplas fontes com deduplicação e enriquecimento.
     Ordem da lista = prioridade (primeiro tem prioridade em duplicatas).
+    Quando duplicata: enriquece crests e goals se o vencedor não tiver.
     """
-    seen_keys: set[tuple[str, str, str]] = set()
-    merged = list(existing)
+    by_key: dict[tuple[str, str, str], dict[str, Any]] = {}
     for m in existing:
-        seen_keys.add(_match_key(m))
+        k = _match_key(m)
+        by_key[k] = dict(m)
 
     for matches in list_of_match_lists:
         for m in matches:
             key = _match_key(m)
-            if key in seen_keys:
-                continue
-            seen_keys.add(key)
             dt_str = m.get("date")
             if dt_str:
                 try:
@@ -51,12 +104,14 @@ def merge_from_multiple_sources(
                         continue
                 except (ValueError, TypeError):
                     pass
-            merged.append(m)
 
-    def _key(x):
-        return x.get("date") or ""
+            if key in by_key:
+                _enrich_record(by_key[key], m)
+            else:
+                by_key[key] = dict(m)
 
-    merged.sort(key=_key)
+    merged = list(by_key.values())
+    merged.sort(key=lambda x: x.get("date") or "")
 
     cutoff = (datetime.now(timezone.utc) - timedelta(days=window_days)).replace(tzinfo=None)
     trimmed = []
@@ -71,6 +126,9 @@ def merge_from_multiple_sources(
                 trimmed.append(m)
         except (ValueError, TypeError):
             trimmed.append(m)
+
+    for m in trimmed:
+        _ensure_fd_crests(m)
 
     return trimmed
 
@@ -104,14 +162,29 @@ def load_matches() -> list[dict[str, Any]]:
 
 
 def save_matches(matches: list[dict[str, Any]]) -> None:
-    """Salva partidas no disco."""
+    """Salva partidas no disco (escrita atômica via tmp)."""
     ensure_dirs()
     data = {
         "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "matches": matches,
     }
-    with open(MATCHES_FILE, "w", encoding="utf-8") as f:
+    tmp_path = MATCHES_FILE.with_suffix(".json.tmp")
+    with open(tmp_path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+    os.replace(tmp_path, MATCHES_FILE)
+
+
+def save_fixtures(path: Path, fixtures: list[dict[str, Any]]) -> None:
+    """Salva fixtures no disco (escrita atômica via tmp)."""
+    ensure_dirs()
+    data = {
+        "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "fixtures": fixtures,
+    }
+    tmp_path = path.with_name(path.name + ".tmp")
+    with open(tmp_path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    os.replace(tmp_path, path)
 
 
 def merge_and_trim_matches(
