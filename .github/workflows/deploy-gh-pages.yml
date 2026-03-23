@@ -52,9 +52,9 @@ jobs:
           NEXT_PUBLIC_DATA_SOURCE: static
         run: |
           node scripts/prepare-static.js
-          mv app/api app/api.bak
+          mv app/api /tmp/statics-ballers-api
           npm run build
-          mv app/api.bak app/api
+          mv /tmp/statics-ballers-api app/api
           touch out/.nojekyll
 
       - name: Setup Pages
