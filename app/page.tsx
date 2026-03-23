@@ -44,10 +44,10 @@ export default function Dashboard() {
   const byCompetition = metrics.by_competition ?? {};
   const sampleMatches = metrics.sample_matches ?? [];
 
-  const favoriteWinsByLeague = Object.entries(byCompetition).map(([code, m]: [string, { name: string; favorite_wins_pct: number }]) => ({
-    name: m.name,
-    pct: m.favorite_wins_pct ?? 0,
-  }));
+  const favoriteWinsByLeague = Object.entries(byCompetition).map(([code, m]) => {
+    const league = m as { name?: string; favorite_wins_pct?: number };
+    return { name: league.name ?? code, pct: league.favorite_wins_pct ?? 0 };
+  });
 
   return (
     <div className="space-y-12 sm:space-y-16">
