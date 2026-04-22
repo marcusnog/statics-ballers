@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:21st-search-engine.fly.dev)",
+      "Bash(npm run *)"
+    ]
+  }
+}

@@ -19,26 +19,26 @@ interface RecentMatchesProps {
   matches: Match[];
 }
 
-function getMarketsHit(m: Match): string[] {
+function getMarketsHit(m: Match): { label: string; color: "green" | "blue" | "slate" }[] {
   const h = m.home_goals ?? 0;
   const a = m.away_goals ?? 0;
   const total = h + a;
-  const hits: string[] = [];
-
-  if (total >= 3) hits.push("Over 2.5");
-  if (h >= 1 && a >= 1) hits.push("BTTS");
-  if (total === 0) hits.push("Under 0.5");
-
+  const hits: { label: string; color: "green" | "blue" | "slate" }[] = [];
+  if (total >= 3) hits.push({ label: "Over 2.5 ✓", color: "green" });
+  if (h >= 1 && a >= 1) hits.push({ label: "BTTS ✓", color: "blue" });
+  if (total === 0) hits.push({ label: "Under 0.5 ✓", color: "slate" });
   return hits;
 }
 
 function initials(name: string): string {
-  return name
-    .split(/\s+/)
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase() || "?";
+  return (
+    name
+      .split(/\s+/)
+      .map((w) => w[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase() || "?"
+  );
 }
 
 function TeamCrest({ src, alt }: { src?: string | null; alt: string }) {
@@ -46,7 +46,7 @@ function TeamCrest({ src, alt }: { src?: string | null; alt: string }) {
   if (!src || failed) {
     return (
       <span
-        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-200 text-[10px] font-bold text-slate-500"
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 text-[9px] font-bold text-slate-500 border border-slate-200"
         title={alt}
       >
         {initials(alt)}
@@ -57,7 +57,7 @@ function TeamCrest({ src, alt }: { src?: string | null; alt: string }) {
     <img
       src={src}
       alt={alt}
-      className="h-8 w-8 shrink-0 rounded-full object-contain"
+      className="h-7 w-7 shrink-0 rounded-full object-contain bg-white border border-slate-100 p-0.5"
       onError={() => setFailed(true)}
     />
   );
@@ -71,29 +71,32 @@ function LeagueEmblem({ code }: { code?: string }) {
     <img
       src={src}
       alt=""
-      className="h-5 w-5 shrink-0 object-contain opacity-80"
+      className="h-4 w-4 shrink-0 object-contain opacity-80"
       onError={() => setFailed(true)}
     />
   );
 }
 
-function competitionChip(comp: string): string {
-  const short: Record<string, string> = {
-    "Champions League (UCL)": "UCL",
-    "Premier League": "PL",
-    "La Liga": "LaLiga",
-    "Europa League": "UEL",
-    "Eredivisie": "DED",
-    "Brasileirão": "BSA",
-    "Libertadores": "CLI",
-    "Bundesliga": "BL1",
-    "Serie A": "SA",
-    "Ligue 1": "FL1",
-    "Primeira Liga": "PPL",
-    "Championship": "ELC",
-  };
-  return short[comp] ?? comp.slice(0, 8);
-}
+const COMP_SHORT: Record<string, string> = {
+  "Champions League (UCL)": "UCL",
+  "Premier League": "PL",
+  "La Liga": "LaLiga",
+  "Europa League": "UEL",
+  "Eredivisie": "DED",
+  "Brasileirão": "BSA",
+  "Libertadores": "CLI",
+  "Bundesliga": "BL1",
+  "Serie A": "SA",
+  "Ligue 1": "FL1",
+  "Primeira Liga": "PPL",
+  "Championship": "ELC",
+};
+
+const HIT_COLORS = {
+  green: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  blue: "bg-blue-50 text-blue-700 border-blue-200",
+  slate: "bg-slate-100 text-slate-600 border-slate-200",
+};
 
 export default function RecentMatches({ matches }: RecentMatchesProps) {
   if (!matches || matches.length === 0) {
@@ -127,35 +130,59 @@ export default function RecentMatches({ matches }: RecentMatchesProps) {
             <tbody>
               {displayed.map((m, i) => {
                 const hits = getMarketsHit(m);
-                const score =
-                  m.home_goals != null && m.away_goals != null
-                    ? `${m.home_goals}–${m.away_goals}`
-                    : "—";
+                const h = m.home_goals ?? null;
+                const a = m.away_goals ?? null;
+                const score = h != null && a != null ? `${h} – ${a}` : "—";
+                const totalGoals = (h ?? 0) + (a ?? 0);
+
                 return (
                   <tr
                     key={m.id}
-                    className={`border-t border-slate-100 ${i % 2 === 0 ? "bg-white" : "bg-slate-50/30"} table-row-hover`}
+                    className={`border-t border-slate-100 ${i % 2 === 0 ? "bg-white" : "bg-slate-50/40"} table-row-hover`}
                   >
-                    <td className="table-td font-medium text-slate-800">
+                    <td className="table-td">
                       <div className="flex items-center gap-2">
                         <TeamCrest src={m.home_team_crest} alt={m.home_team} />
-                        <span>{m.home_team} × {m.away_team}</span>
+                        <span className="font-medium text-slate-800 text-sm">{m.home_team}</span>
+                        <span className="text-slate-300 text-xs shrink-0">×</span>
+                        <span className="font-medium text-slate-800 text-sm">{m.away_team}</span>
                         <TeamCrest src={m.away_team_crest} alt={m.away_team} />
                       </div>
                     </td>
                     <td className="table-td">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5">
                         <LeagueEmblem code={m.competition_code} />
-                        <span className="inline-flex px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 text-xs font-medium">
-                          {competitionChip(m.competition)}
+                        <span className="inline-flex px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-xs font-semibold">
+                          {COMP_SHORT[m.competition] ?? m.competition.slice(0, 8)}
                         </span>
                       </div>
                     </td>
                     <td className="table-td text-center">
-                      <span className="font-bold text-slate-900 tabular-nums text-base">{score}</span>
+                      <span className={`font-black text-base tabular-nums px-3 py-1 rounded-lg inline-block ${
+                        totalGoals >= 3
+                          ? "text-emerald-700 bg-emerald-50"
+                          : totalGoals === 0
+                          ? "text-slate-500 bg-slate-100"
+                          : "text-slate-800 bg-slate-50"
+                      }`}>
+                        {score}
+                      </span>
                     </td>
-                    <td className="table-td text-emerald-600 font-medium">
-                      {hits.length > 0 ? hits.join(", ") : "—"}
+                    <td className="table-td">
+                      {hits.length > 0 ? (
+                        <div className="flex flex-wrap gap-1">
+                          {hits.map((hit) => (
+                            <span
+                              key={hit.label}
+                              className={`inline-flex px-2 py-0.5 rounded-md text-xs font-semibold border ${HIT_COLORS[hit.color]}`}
+                            >
+                              {hit.label}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-slate-400 text-sm">—</span>
+                      )}
                     </td>
                   </tr>
                 );

@@ -30,6 +30,30 @@ function LeagueEmblem({ code }: { code: string }) {
   );
 }
 
+function MetricCell({ value, thresholds }: { value: number; thresholds: [number, number] }) {
+  const isHigh = value >= thresholds[1];
+  const isMid = value >= thresholds[0] && value < thresholds[1];
+  return (
+    <span
+      className={`font-semibold tabular-nums text-sm px-2 py-0.5 rounded-md ${
+        isHigh
+          ? "text-emerald-700 bg-emerald-50"
+          : isMid
+          ? "text-amber-700 bg-amber-50"
+          : "text-slate-600"
+      }`}
+    >
+      {value}%
+    </span>
+  );
+}
+
+const REGION_ICONS: Record<string, string> = {
+  "Europa": "🇪🇺",
+  "América do Sul": "🌎",
+  "Outras": "🌐",
+};
+
 export default function LeagueComparison({ byCompetition }: LeagueComparisonProps) {
   const leagues = Object.entries(byCompetition).map(([code, m]) => ({ code, ...m }));
 
@@ -55,7 +79,7 @@ export default function LeagueComparison({ byCompetition }: LeagueComparisonProp
     <section id="ligas" className="scroll-mt-24 animate-slide-up" style={{ animationDelay: "0.15s" }}>
       <h2 className="section-title section-divider">Comparativo por Liga</h2>
       <p className="section-subtitle">
-        % vitória favorito · % over 2.5 · % ambas marcam · escanteios +9.5
+        % vitória favorito · % over 2.5 · % ambas marcam — verde = alto, amarelo = médio
       </p>
       <div className="space-y-6">
         {regionOrder.map((region) => {
@@ -63,9 +87,10 @@ export default function LeagueComparison({ byCompetition }: LeagueComparisonProp
           if (!regionLeagues?.length) return null;
           return (
             <div key={region}>
-              <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-                <span className="w-1 h-4 rounded-full bg-emerald-500" />
+              <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                <span className="text-base select-none" aria-hidden>{REGION_ICONS[region] ?? "🌐"}</span>
                 {region}
+                <span className="font-medium text-slate-400 normal-case tracking-normal">({regionLeagues.length} ligas)</span>
               </h3>
               <div className="card-base overflow-hidden">
                 <div className="overflow-x-auto">
@@ -84,7 +109,7 @@ export default function LeagueComparison({ byCompetition }: LeagueComparisonProp
                       {regionLeagues.map((league, i) => (
                         <tr
                           key={league.code}
-                          className={`border-t border-slate-100 ${i % 2 === 0 ? "bg-white" : "bg-slate-50/30"} table-row-hover`}
+                          className={`border-t border-slate-100 ${i % 2 === 0 ? "bg-white" : "bg-slate-50/40"} table-row-hover`}
                         >
                           <td className="table-td font-medium text-slate-800">
                             <div className="flex items-center gap-2">
@@ -92,11 +117,17 @@ export default function LeagueComparison({ byCompetition }: LeagueComparisonProp
                               {league.name}
                             </div>
                           </td>
-                          <td className="table-td text-right text-slate-600 tabular-nums">{league.games}</td>
-                          <td className="table-td text-right font-medium tabular-nums">{league.favorite_wins_pct}%</td>
-                          <td className="table-td text-right font-medium tabular-nums">{league.over_25_pct}%</td>
-                          <td className="table-td text-right font-medium tabular-nums">{league.btts_pct}%</td>
-                          <td className="table-td text-right text-slate-400">—</td>
+                          <td className="table-td text-right text-slate-500 tabular-nums text-sm">{league.games}</td>
+                          <td className="table-td text-right">
+                            <MetricCell value={league.favorite_wins_pct} thresholds={[60, 70]} />
+                          </td>
+                          <td className="table-td text-right">
+                            <MetricCell value={league.over_25_pct} thresholds={[50, 60]} />
+                          </td>
+                          <td className="table-td text-right">
+                            <MetricCell value={league.btts_pct} thresholds={[45, 55]} />
+                          </td>
+                          <td className="table-td text-right text-slate-400 text-sm">—</td>
                         </tr>
                       ))}
                     </tbody>

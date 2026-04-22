@@ -4,12 +4,12 @@
 
 @layer base {
   :root {
-    --color-bg: 250 250 252;
+    --color-bg: 248 250 252;
     --color-surface: 255 255 255;
     --color-border: 226 232 240;
     --color-text: 15 23 42;
     --color-text-muted: 100 116 139;
-    --color-accent: 22 163 74;
+    --color-accent: 16 185 129;
     --radius: 0.75rem;
     --radius-lg: 1rem;
   }
@@ -20,11 +20,14 @@
 
   body {
     @apply antialiased text-slate-800;
-    background: linear-gradient(180deg, rgb(var(--color-bg)) 0%, rgb(241 245 249) 100%);
+    background-color: #f0f4f8;
+    background-image:
+      radial-gradient(ellipse at 15% 0%, rgba(16, 185, 129, 0.07) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 10%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, rgba(16, 185, 129, 0.04) 0%, transparent 60%);
     min-height: 100vh;
   }
 
-  /* Focus ring for accessibility */
   a:focus-visible,
   button:focus-visible {
     @apply outline-none ring-2 ring-emerald-500 ring-offset-2;
@@ -33,23 +36,38 @@
 
 @layer components {
   .section-title {
-    @apply text-lg font-semibold text-slate-800 mb-1;
+    @apply text-xl font-bold text-slate-900 mb-1 tracking-tight;
   }
 
   .section-subtitle {
-    @apply text-sm text-slate-500 mb-6;
+    @apply text-sm text-slate-500 mb-6 leading-relaxed;
   }
 
   .section-divider {
-    @apply relative pl-4 before:content-[''] before:absolute before:left-0 before:top-0.5 before:bottom-0.5 before:w-1 before:rounded-full before:bg-emerald-500;
+    @apply relative pl-4 before:content-[''] before:absolute before:left-0 before:top-0.5 before:bottom-0.5 before:w-1 before:rounded-full before:bg-gradient-to-b before:from-emerald-400 before:to-emerald-600;
   }
 
   .card-base {
-    @apply bg-white rounded-2xl border border-slate-200/80 shadow-card;
+    @apply bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/70 shadow-[0_2px_12px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.04)];
   }
 
   .card-interactive {
-    @apply card-base transition-all duration-200 hover:shadow-card-hover hover:border-slate-200;
+    @apply card-base transition-all duration-200
+      hover:shadow-[0_8px_24px_rgba(0,0,0,0.1),0_2px_6px_rgba(0,0,0,0.06)]
+      hover:border-emerald-200/80 hover:-translate-y-0.5;
+  }
+
+  .card-accent-green {
+    @apply card-interactive border-t-2 border-t-emerald-500;
+  }
+  .card-accent-blue {
+    @apply card-interactive border-t-2 border-t-blue-500;
+  }
+  .card-accent-amber {
+    @apply card-interactive border-t-2 border-t-amber-500;
+  }
+  .card-accent-slate {
+    @apply card-interactive border-t-2 border-t-slate-400;
   }
 
   .table-base {
@@ -57,7 +75,7 @@
   }
 
   .table-th {
-    @apply px-5 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 bg-slate-50/80;
+    @apply px-5 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 bg-slate-50/90;
   }
 
   .table-td {
@@ -65,8 +83,30 @@
   }
 
   .table-row-hover {
-    @apply transition-colors hover:bg-slate-50/70;
+    @apply transition-colors hover:bg-emerald-50/40;
   }
+
+  /* Shimmer skeleton */
+  .shimmer {
+    @apply relative overflow-hidden bg-slate-100 before:absolute before:inset-0
+      before:-translate-x-full before:bg-gradient-to-r
+      before:from-transparent before:via-white/60 before:to-transparent
+      before:animate-shimmer;
+  }
+}
+
+/* Shimmer keyframe */
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+/* Gradient bar fill */
+@keyframes bar-grow {
+  from { width: 0%; }
+}
+
+.animate-bar-grow {
+  animation: bar-grow 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Prose for markdown */
@@ -80,7 +120,6 @@
 .prose ul { @apply list-disc list-inside my-2 space-y-1 text-slate-600; }
 .prose blockquote { @apply border-l-4 border-emerald-200 pl-4 italic text-slate-600 my-2; }
 
-/* Report viewer: primeiro bloco (Atualizado em) com destaque */
 .report-content [data-report-blockquote]:first-of-type {
   @apply border-emerald-200 bg-emerald-50/50;
 }
